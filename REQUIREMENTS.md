@@ -5,20 +5,20 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+- Index 'Products' [GET]
+- Show 'Products/:id' [GET]
+- Create [token required] 'Products' [POST]
+- [OPTIONAL] Top 5 most popular products 'Products/most-popular?n=5' [GET]
+- [OPTIONAL] Products by category (args: product category) 'Products?category=product-category' [GET]
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required] 'Users' [GET]
+- Show [token required] 'Users/:id' [GET]
+- Create N[token required] 'Users' [POST]
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required] 'Orders?user=user-id' [GET]
+- [OPTIONAL] Completed Orders by user (args: user id)[token required] 'Orders/completed?user=user-id' [GET]'
 
 ## Data Shapes
 #### Product
@@ -27,11 +27,26 @@ These are the notes from a meeting with the frontend developer that describe wha
 - price
 - [OPTIONAL] category
 
+Table: Products(
+  id: SERIAL PRIMARY KEY,
+  product_name: VARCHAR,
+  price: DECIMAL,
+  category: VARCHAR
+)
+
 #### User
 - id
 - firstName
 - lastName
 - password
+
+Table: Users(
+  id: SERIAL PRIMARY KEY,
+  firstName: VARCHAR,
+  lastName: VARCHAR,
+  password_digist: VARCHAR
+)
+
 
 #### Orders
 - id
@@ -39,4 +54,17 @@ These are the notes from a meeting with the frontend developer that describe wha
 - quantity of each product in the order
 - user_id
 - status of order (active or complete)
+
+Table: Orders(
+  id: SERIAL PRIMARY KEY,
+  user_id: BIGINT [foreign key to users table],
+  status: VARCHAR
+)
+
+Table: Order_products(
+  id: SERIAL PRIMARY KEY,
+  product_id: BIGINT [refernces products table],
+  order_id: BIGINT [refernces orders table],
+  quantity: INTEGER,
+)
 
