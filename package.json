@@ -5,9 +5,10 @@
   "main": "server.ts",
   "scripts": {
     "start": "node ./dist/server.js",
+    "jasmine": "",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "jasmine-ts",
-    "tsc": "tsc"
+    "test": "Set ENV=test&& db-migrate reset --env test && db-migrate up --env test  && npm run build && npm run jasmine && db-migrate down --env test ",
+    "build": "tsc"
   },
   "author": "Udacity",
   "license": "ISC",
