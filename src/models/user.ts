@@ -44,8 +44,10 @@ export class UserStore {
 
       const saltRounds = process.env.SALT_ROUNDS as string;
       const pepper = process.env.BCRYPT_PASSWORD;
-      const hashedPassword = bcrypt.hashSync;
-      user.password_digist + pepper, parseInt(saltRounds);
+      const hashedPassword = bcrypt.hashSync(
+        user.password_digist + pepper,
+        parseInt(saltRounds)
+      );
 
       const result = await conn.query(sql, [
         user.firstName,

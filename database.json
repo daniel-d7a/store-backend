@@ -2,15 +2,15 @@
   "dev": {
     "driver": "pg",
     "host": "127.0.0.1",
-    "database": "fantasy_worlds",
-    "user": "magical_user",
-    "password": "password123"
+    "database": "udacity-project",
+    "user": "postgres",
+    "password": "dodomax12345"
   },
   "test": {
     "driver": "pg",
     "host": "127.0.0.1",
-    "database": "fantasy_worlds_test",
-    "user": "test_user",
-    "password": "password123"
+    "database": "udacity-project-test",
+    "user": "postgres",
+    "password": "dodomax12345"
   }
 }

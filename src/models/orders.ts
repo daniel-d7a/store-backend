@@ -5,6 +5,7 @@ export type Order = {
   user_id: number;
   status: string;
   //TODO: turn status into an enum
+  // comments are in cursive oh lala
 };
 
 export class OrderStore {
