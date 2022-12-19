@@ -1,11 +1,9 @@
 import client from "../client";
 
 export type Order = {
-  id: number;
   user_id: number;
   status: string;
   //TODO: turn status into an enum
-  // comments are in cursive oh lala
 };
 
 export class OrderStore {
@@ -36,7 +34,8 @@ export class OrderStore {
   async create(order: Order): Promise<Order> {
     try {
       const conn = await client.connect();
-      const sql = "INSERT INTO orders(user_id, status) VALUES ($1, $2) RETURNING *"
+      const sql =
+        "INSERT INTO orders(user_id, status) VALUES ($1, $2) RETURNING *";
       const result = await conn.query(sql, [order.user_id, order.status]);
       return result.rows[0];
     } catch (err) {
@@ -44,30 +43,31 @@ export class OrderStore {
     }
   }
 
-  async current_order_by_user(id: number): Promise<Order> {
+  async current_order_by_user(user_id: number): Promise<Order> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM orders WHERE id=($1) AND status=current";
-      const result = await conn.query(sql, [id]);
+      const sql = "SELECT * FROM orders WHERE user_id=($1) AND status=current";
+      const result = await conn.query(sql, [user_id]);
       conn.release();
       return result.rows[0];
     } catch (err) {
       throw new Error(
-        `Couldn't get current order for user with id ${id}. Error: ${err}`
+        `Couldn't get current order for user with user_id ${user_id}. Error: ${err}`
       );
     }
   }
 
-  async completed_orders_by_user(id: number): Promise<Order[]> {
+  async completed_orders_by_user(user_id: number): Promise<Order[]> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM orders WHERE id=($1) AND status=completed";
-      const result = await conn.query(sql, [id]);
+      const sql =
+        "SELECT * FROM orders WHERE user_id=($1) AND status=completed";
+      const result = await conn.query(sql, [user_id]);
       conn.release();
       return result.rows;
     } catch (err) {
       throw new Error(
-        `Couldn't get order completed by user with id ${id}. Error: ${err}`
+        `Couldn't get order completed by user with user_id ${user_id}. Error: ${err}`
       );
     }
   }

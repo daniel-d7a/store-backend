@@ -5,20 +5,20 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 'Products' [GET]
-- Show 'Products/:id' [GET]
-- Create [token required] 'Products' [POST]
-- [OPTIONAL] Top 5 most popular products 'Products/most-popular?n=5' [GET]
-- [OPTIONAL] Products by category (args: product category) 'Products?category=product-category' [GET]
+<!-- - Index 'Products' [GET] -->
+<!-- - Show 'Products/:id' [GET] -->
+<!-- - Create [token required] 'Products' [POST] -->
+<!-- - [OPTIONAL] Top 5 most popular products 'Products/most-popular?n=5' [GET] -->
+<!-- - [OPTIONAL] Products by category (args: product category) 'Products/category?category=product-category' [GET] -->
 
 #### Users
-- Index [token required] 'Users' [GET]
-- Show [token required] 'Users/:id' [GET]
-- Create N[token required] 'Users' [POST]
+<!-- - Index [token required] 'Users' [GET] -->
+<!-- - Show [token required] 'Users/:id' [GET] -->
+<!-- - Create N[token required] 'Users' [POST] -->
 
 #### Orders
-- Current Order by user (args: user id)[token required] 'Orders?user=user-id' [GET]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required] 'Orders/completed?user=user-id' [GET]'
+<!-- - Current Order by user (args: user id)[token required] 'Orders?user=user-id' [GET] -->
+<!-- - [OPTIONAL] Completed Orders by user (args: user id)[token required] 'Orders/completed?user=user-id' [GET]' -->
 
 ## Data Shapes
 #### Product

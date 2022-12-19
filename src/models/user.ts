@@ -5,10 +5,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export type User = {
-  id: number;
   firstName: string;
   lastName: string;
-  password_digist: string;
+  password: string;
 };
 
 export class UserStore {
@@ -45,7 +44,7 @@ export class UserStore {
       const saltRounds = process.env.SALT_ROUNDS as string;
       const pepper = process.env.BCRYPT_PASSWORD;
       const hashedPassword = bcrypt.hashSync(
-        user.password_digist + pepper,
+        user.password + pepper,
         parseInt(saltRounds)
       );
 

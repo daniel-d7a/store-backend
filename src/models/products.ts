@@ -1,7 +1,6 @@
 import client from "../client";
 
 export type Product = {
-  id: number;
   product_name: string;
   price: number;
   category?: string;
