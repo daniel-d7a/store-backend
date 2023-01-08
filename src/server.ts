@@ -7,7 +7,6 @@ import ordersHandler from "./handlers/ordersHandler";
 import orderProductsHandler from "./handlers/orderProductsHandler";
 import queriesHandler from "./handlers/queriesHandler"
 
-
 const app: express.Application = express()
 const address: string = "0.0.0.0:3000"
 

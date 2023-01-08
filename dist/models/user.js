@@ -39,7 +39,7 @@ class UserStore {
             const sql = "INSERT INTO users(firstName, lastName, password_digist) VALUES($1, $2, $3) RETURNING *";
             const saltRounds = process.env.SALT_ROUNDS;
             const pepper = process.env.BCRYPT_PASSWORD;
-            const hashedPassword = bcrypt_1.default.hashSync(user.password_digist + pepper, parseInt(saltRounds));
+            const hashedPassword = bcrypt_1.default.hashSync(user.password + pepper, parseInt(saltRounds));
             const result = await conn.query(sql, [
                 user.firstName,
                 user.lastName,
@@ -50,6 +50,17 @@ class UserStore {
         }
         catch (err) {
             throw new Error(`Could not create user. Error: ${err}`);
+        }
+    }
+    async delete_table() {
+        try {
+            const conn = await client_1.default.connect();
+            const sql = "DELETE FROM users";
+            await conn.query(sql);
+            conn.release();
+        }
+        catch (err) {
+            throw new Error(`Could not delete users. Error: ${err}`);
         }
     }
 }

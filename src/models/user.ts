@@ -9,9 +9,15 @@ export type User = {
   lastName: string;
   password: string;
 };
+export type returnUser = {
+  id: Number;
+  firstname: string;
+  lastname: string;
+  password_digist: string;
+};
 
 export class UserStore {
-  async index(): Promise<User[]> {
+  async index(): Promise<returnUser[]> {
     try {
       const conn = await client.connect();
       const sql = "SELECT * FROM users";
@@ -23,7 +29,7 @@ export class UserStore {
     }
   }
 
-  async show(id: number): Promise<User> {
+  async show(id: Number): Promise<returnUser> {
     try {
       const conn = await client.connect();
       const sql = "SELECT * FROM users WHERE id=($1)";
@@ -35,7 +41,7 @@ export class UserStore {
     }
   }
 
-  async create(user: User): Promise<User> {
+  async create(user: User): Promise<returnUser> {
     try {
       const conn = await client.connect();
       const sql =
@@ -57,6 +63,17 @@ export class UserStore {
       return result.rows[0];
     } catch (err) {
       throw new Error(`Could not create user. Error: ${err}`);
+    }
+  }
+
+  async delete_table(): Promise<void> {
+    try {
+      const conn = await client.connect();
+      const sql = "DELETE FROM users";
+      await conn.query(sql);
+      conn.release();
+    } catch (err) {
+      throw new Error(`Could not delete users. Error: ${err}`);
     }
   }
 }

@@ -58,5 +58,16 @@ class ProductStore {
             throw new Error(`Couldn't get products by category ${category}. Error:${err}`);
         }
     }
+    async delete_table() {
+        try {
+            const conn = await client_1.default.connect();
+            const sql = "DELETE FROM products";
+            await conn.query(sql);
+            conn.release();
+        }
+        catch (err) {
+            throw new Error(`Could not delete users. Error: ${err}`);
+        }
+    }
 }
 exports.ProductStore = ProductStore;

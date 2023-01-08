@@ -1,6 +1,5 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import { DataBaseQuery } from "../models/miscQueries";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();

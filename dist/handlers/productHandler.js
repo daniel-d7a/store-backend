@@ -3,20 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_1 = require("../models/user");
+const products_1 = require("../models/products");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const store = new user_1.UserStore();
+const store = new products_1.ProductStore();
 const main = (app) => {
-    app.get("/User", verifyAuthToken, index);
-    app.get("/User/:id", verifyAuthToken, show);
-    app.post("/User", verifyAuthToken, create);
+    app.get("/products", index);
+    app.get("/products/:id", show);
+    app.post("/products", verifyAuthToken, create);
+    app.get("/products/category/:category", products_by_category);
 };
 const index = async (_req, res) => {
     try {
-        const users = await store.index();
-        res.json(users);
+        const products = await store.index();
+        res.json(products);
     }
     catch (err) {
         res.status(404).json(err);
@@ -24,8 +25,8 @@ const index = async (_req, res) => {
 };
 const show = async (req, res) => {
     try {
-        const user = await store.show(parseInt(req.params.id));
-        res.json(user);
+        const products = await store.show(parseInt(req.params.id));
+        res.json(products);
     }
     catch (err) {
         res.status(404).json(err);
@@ -33,14 +34,22 @@ const show = async (req, res) => {
 };
 const create = async (req, res) => {
     try {
-        const user = {
-            firstName: req.body.firstname,
-            lastName: req.body.lastName,
-            password: req.body.firstname,
+        const product = {
+            price: req.body.price,
+            product_name: req.body.name,
+            category: req.body.category
         };
-        const newUser = await store.create(user);
-        const token = jsonwebtoken_1.default.sign({ user: newUser }, process.env.TOKEN_SECRET);
-        res.json(token);
+        const newProduct = await store.create(product);
+        res.json(newProduct);
+    }
+    catch (err) {
+        res.status(404).json(err);
+    }
+};
+const products_by_category = async (req, res) => {
+    try {
+        const products = await store.products_by_category(req.params.category);
+        res.json(products);
     }
     catch (err) {
         res.status(404).json(err);

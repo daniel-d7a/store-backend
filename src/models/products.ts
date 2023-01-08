@@ -5,9 +5,15 @@ export type Product = {
   price: number;
   category?: string;
 };
+export type returnProduct = {
+  id: Number;
+  product_name: string;
+  price: number;
+  category?: string;
+};
 
 export class ProductStore {
-  async index(): Promise<Product[]> {
+  async index(): Promise<returnProduct[]> {
     try {
       const conn = await client.connect();
       const sql = "SELECT * FROM products";
@@ -18,7 +24,7 @@ export class ProductStore {
       throw new Error(`Couldn't get products. Error:${err}`);
     }
   }
-  async show(id: number): Promise<Product> {
+  async show(id: Number): Promise<returnProduct> {
     try {
       const conn = await client.connect();
       const sql = "SELECT * FROM products WHERE id=($1)";
@@ -30,7 +36,7 @@ export class ProductStore {
     }
   }
 
-  async create(product: Product): Promise<Product> {
+  async create(product: Product): Promise<returnProduct> {
     try {
       const conn = await client.connect();
       const sql =
@@ -47,7 +53,7 @@ export class ProductStore {
     }
   }
 
-  async products_by_category(category: string): Promise<Product[]> {
+  async products_by_category(category: string): Promise<returnProduct[]> {
     try {
       const conn = await client.connect();
       const sql = "SELECT * FROM products WHERE category=($1)";
@@ -55,7 +61,19 @@ export class ProductStore {
       conn.release();
       return result.rows;
     } catch (err) {
-      throw new Error(`Couldn't get products by category ${category}. Error:${err}`);
+      throw new Error(
+        `Couldn't get products by category ${category}. Error:${err}`
+      );
+    }
+  }
+  async delete_table(): Promise<void> {
+    try {
+      const conn = await client.connect();
+      const sql = "DELETE FROM products";
+      await conn.query(sql);
+      conn.release();
+    } catch (err) {
+      throw new Error(`Could not delete users. Error: ${err}`);
     }
   }
 }

@@ -9,7 +9,10 @@ class DataBaseQuery {
     async most_popular(count) {
         try {
             const conn = await client_1.default.connect();
-            const sql = "SELECT * FROM order_products GROUP BY product_id ORDER BY quantity DESC LIMIT ($1)";
+            const sql = `SELECT quantity, product_id
+        FROM order_products
+        GROUP BY quantity, product_id
+        ORDER BY quantity DESC LIMIT ($1)`;
             const result = await conn.query(sql, [count]);
             conn.release();
             return result.rows;
