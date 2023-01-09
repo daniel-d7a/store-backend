@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_1 = require("../models/user");
+const user_1 = require("../../models/user");
 describe("testing user model", () => {
     let store;
     beforeEach(async () => {
@@ -8,12 +8,12 @@ describe("testing user model", () => {
         await store.create({
             firstName: "user1",
             lastName: "lastname1",
-            password: "password1"
+            password: "password1",
         });
         await store.create({
             firstName: "user2",
             lastName: "lastname2",
-            password: "password2"
+            password: "password2",
         });
     });
     afterEach(async () => {

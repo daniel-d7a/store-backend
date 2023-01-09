@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const orders_1 = require("../models/orders");
-const user_1 = require("../models/user");
+const orders_1 = require("../../models/orders");
+const user_1 = require("../../models/user");
 describe("testing orders model", () => {
     let store;
     const userStore = new user_1.UserStore();
@@ -36,7 +36,7 @@ describe("testing orders model", () => {
     afterAll(async () => {
         await userStore.delete_table();
     });
-    it("tests creating a product", async () => {
+    it("tests creating an order", async () => {
         const users = await userStore.index();
         const newOrder = {
             user_id: users[0].id,

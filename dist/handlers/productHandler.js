@@ -17,7 +17,7 @@ const main = (app) => {
 const index = async (_req, res) => {
     try {
         const products = await store.index();
-        res.json(products);
+        res.status(200).json(products);
     }
     catch (err) {
         res.status(404).json(err);
@@ -26,7 +26,7 @@ const index = async (_req, res) => {
 const show = async (req, res) => {
     try {
         const products = await store.show(parseInt(req.params.id));
-        res.json(products);
+        res.status(200).json(products);
     }
     catch (err) {
         res.status(404).json(err);
@@ -36,11 +36,11 @@ const create = async (req, res) => {
     try {
         const product = {
             price: req.body.price,
-            product_name: req.body.name,
-            category: req.body.category
+            product_name: req.body.product_name,
+            category: req.body.category,
         };
         const newProduct = await store.create(product);
-        res.json(newProduct);
+        res.status(201).json(newProduct);
     }
     catch (err) {
         res.status(404).json(err);
@@ -49,7 +49,7 @@ const create = async (req, res) => {
 const products_by_category = async (req, res) => {
     try {
         const products = await store.products_by_category(req.params.category);
-        res.json(products);
+        res.status(200).json(products);
     }
     catch (err) {
         res.status(404).json(err);

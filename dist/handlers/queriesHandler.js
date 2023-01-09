@@ -8,11 +8,11 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const store = new miscQueries_1.DataBaseQuery();
 const main = (app) => {
-    app.get("products/most_popular", most_popular_products);
+    app.get("/most_popular_products", most_popular_products);
 };
 const most_popular_products = async (req, res) => {
     try {
-        const products = await store.most_popular(req.body.count);
+        const products = await store.most_popular(parseInt(req.body.count));
         res.json(products);
     }
     catch (err) {

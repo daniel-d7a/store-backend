@@ -1,9 +1,11 @@
-import { OrderProductsStore } from "../models/order_products";
-import { OrderStore } from "../models/orders";
-import { ProductStore } from "../models/products";
-import { UserStore } from "../models/user";
+import app from "../../server";
+import supertest from "supertest";
+import { OrderProductsStore } from "../../models/order_products";
+import { OrderStore } from "../../models/orders";
+import { ProductStore } from "../../models/products";
+import { UserStore } from "../../models/user";
 
-describe("testing the order_products model", () => {
+describe("testing queries handler", () => {
   const userStore = new UserStore();
   const productStore = new ProductStore();
   const orderStore = new OrderStore();
@@ -54,14 +56,14 @@ describe("testing the order_products model", () => {
     const products = await productStore.index();
 
     await orderProductsStore.create({
-      order_id: orders[0].id,
-      product_id: products[0].id,
-      quantity: 69,
-    });
-    await orderProductsStore.create({
       order_id: orders[1].id,
       product_id: products[1].id,
       quantity: 27,
+    });
+    await orderProductsStore.create({
+      order_id: orders[0].id,
+      product_id: products[0].id,
+      quantity: 69,
     });
   });
 
@@ -75,40 +77,11 @@ describe("testing the order_products model", () => {
     await userStore.delete_table();
   });
 
-  it("tests creating new order_products", async () => {
-    const orders = await orderStore.index();
-    const products = await productStore.index();
+  it("tests getting the most popular products", async () => {
+    const test = await supertest(app)
+      .get("/most_popular_products")
+      .send({ count: 1 });
 
-    await orderProductsStore.create({
-      order_id: orders[0].id,
-      product_id: products[1].id,
-      quantity: 5,
-    });
-
-    const result = await orderProductsStore.index();
-    expect(result.length).toBe(3);
-  });
-
-  it("tests indexing the order_products", async () => {
-    const result = await orderProductsStore.index();
-    expect(result.length).toBe(2);
-  });
-  it("tests showing the order_products with a specific id", async () => {
-    const order_products = await orderProductsStore.index();
-
-    const result = await orderProductsStore.show(order_products[0].id);
-    expect(result.quantity).toBe(69);
-  });
-  it("tests deleteing the order_products with a specific order id and product id", async () => {
-    const order_products = await orderProductsStore.index();
-
-    await orderProductsStore.delete_product(
-      order_products[0].order_id,
-      order_products[0].product_id
-    );
-
-    const result = await orderProductsStore.show(order_products[0].id);
-
-    expect(result).toBeUndefined();
+    expect(test.status).toBe(200);
   });
 });

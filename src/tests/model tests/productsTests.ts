@@ -1,4 +1,4 @@
-import { Product, ProductStore } from "../models/products";
+import { Product, ProductStore } from "../../models/products";
 
 describe("testing products model", () => {
   let store: ProductStore;

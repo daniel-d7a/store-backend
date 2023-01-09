@@ -1,16 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const order_products_1 = require("../models/order_products");
-const orders_1 = require("../models/orders");
-const products_1 = require("../models/products");
-const user_1 = require("../models/user");
-const miscQueries_1 = require("../models/miscQueries");
-describe("testing the misc queries model", () => {
+const order_products_1 = require("../../models/order_products");
+const orders_1 = require("../../models/orders");
+const products_1 = require("../../models/products");
+const user_1 = require("../../models/user");
+describe("testing the order_products model", () => {
     const userStore = new user_1.UserStore();
     const productStore = new products_1.ProductStore();
     const orderStore = new orders_1.OrderStore();
     const orderProductsStore = new order_products_1.OrderProductsStore();
-    const databaseQuery = new miscQueries_1.DataBaseQuery();
     beforeAll(async () => {
         await orderStore.delete_table();
         await productStore.delete_table();
@@ -50,14 +48,14 @@ describe("testing the misc queries model", () => {
         const orders = await orderStore.index();
         const products = await productStore.index();
         await orderProductsStore.create({
-            order_id: orders[1].id,
-            product_id: products[1].id,
-            quantity: 27,
-        });
-        await orderProductsStore.create({
             order_id: orders[0].id,
             product_id: products[0].id,
             quantity: 69,
+        });
+        await orderProductsStore.create({
+            order_id: orders[1].id,
+            product_id: products[1].id,
+            quantity: 27,
         });
     });
     afterEach(async () => {
@@ -68,13 +66,30 @@ describe("testing the misc queries model", () => {
         await productStore.delete_table();
         await userStore.delete_table();
     });
-    it("tests getting the most popular products", async () => {
-        const result = await databaseQuery.most_popular(1);
-        const products = await orderProductsStore.index();
-        const product = products.reduce((current, acc) => {
-            return current.quantity > acc.quantity ? current : acc;
+    it("tests creating new order_products", async () => {
+        const orders = await orderStore.index();
+        const products = await productStore.index();
+        await orderProductsStore.create({
+            order_id: orders[0].id,
+            product_id: products[1].id,
+            quantity: 5,
         });
-        console.log(product);
-        expect(result[0].product_id).toBe(product.product_id);
+        const result = await orderProductsStore.index();
+        expect(result.length).toBe(3);
+    });
+    it("tests indexing the order_products", async () => {
+        const result = await orderProductsStore.index();
+        expect(result.length).toBe(2);
+    });
+    it("tests showing the order_products with a specific id", async () => {
+        const order_products = await orderProductsStore.index();
+        const result = await orderProductsStore.show(order_products[0].id);
+        expect(result.quantity).toBe(69);
+    });
+    it("tests deleteing the order_products with a specific order id and product id", async () => {
+        const order_products = await orderProductsStore.index();
+        await orderProductsStore.delete_product(order_products[0].order_id, order_products[0].product_id);
+        const result = await orderProductsStore.show(order_products[0].id);
+        expect(result).toBeUndefined();
     });
 });

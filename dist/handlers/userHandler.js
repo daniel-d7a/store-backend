@@ -11,12 +11,12 @@ const store = new user_1.UserStore();
 const main = (app) => {
     app.get("/User", verifyAuthToken, index);
     app.get("/User/:id", verifyAuthToken, show);
-    app.post("/User", verifyAuthToken, create);
+    app.post("/User", create);
 };
 const index = async (_req, res) => {
     try {
         const users = await store.index();
-        res.json(users);
+        res.status(200).json(users);
     }
     catch (err) {
         res.status(404).json(err);
@@ -25,7 +25,7 @@ const index = async (_req, res) => {
 const show = async (req, res) => {
     try {
         const user = await store.show(parseInt(req.params.id));
-        res.json(user);
+        res.status(200).json(user);
     }
     catch (err) {
         res.status(404).json(err);
@@ -40,7 +40,7 @@ const create = async (req, res) => {
         };
         const newUser = await store.create(user);
         const token = jsonwebtoken_1.default.sign({ user: newUser }, process.env.TOKEN_SECRET);
-        res.json(token);
+        res.status(201).json(token);
     }
     catch (err) {
         res.status(404).json(err);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const products_1 = require("../models/products");
+const products_1 = require("../../models/products");
 describe("testing products model", () => {
     let store;
     beforeEach(async () => {

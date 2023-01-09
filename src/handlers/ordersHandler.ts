@@ -14,8 +14,8 @@ const main = (app: express.Application) => {
 
 const current_order = async (req: Request, res: Response) => {
   try {
-    const orders = await store.current_order_by_user(parseInt(req.body.id))
-    res.json(orders)
+    const order = await store.current_order_by_user(parseInt(req.body.id))
+    res.json(order)
   } catch (err) {
     res.status(404).json(err)
   }

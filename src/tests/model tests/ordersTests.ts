@@ -1,5 +1,5 @@
-import { Order, OrderStore } from "../models/orders";
-import { UserStore } from "../models/user";
+import { Order, OrderStore } from "../../models/orders";
+import { UserStore } from "../../models/user";
 
 describe("testing orders model", () => {
   let store: OrderStore;
@@ -40,7 +40,7 @@ describe("testing orders model", () => {
     await userStore.delete_table();
   });
 
-  it("tests creating a product", async () => {
+  it("tests creating an order", async () => {
     const users = await userStore.index();
 
     const newOrder: Order = {

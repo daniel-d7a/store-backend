@@ -10,13 +10,13 @@ const store = new UserStore();
 const main = (app: express.Application) => {
   app.get("/User", verifyAuthToken, index);
   app.get("/User/:id", verifyAuthToken, show);
-  app.post("/User", verifyAuthToken, create);
+  app.post("/User", create);
 };
 
 const index = async (_req: Request, res: Response) => {
   try {
     const users = await store.index();
-    res.json(users);
+    res.status(200).json(users);
   } catch (err) {
     res.status(404).json(err);
   }
@@ -25,7 +25,7 @@ const index = async (_req: Request, res: Response) => {
 const show = async (req: Request, res: Response) => {
   try {
     const user = await store.show(parseInt(req.params.id));
-    res.json(user);
+    res.status(200).json(user);
   } catch (err) {
     res.status(404).json(err);
   }
@@ -45,11 +45,12 @@ const create = async (req: Request, res: Response) => {
       process.env.TOKEN_SECRET as string
     );
 
-    res.json(token);
+    res.status(201).json(token);
   } catch (err) {
     res.status(404).json(err);
   }
 };
+
 
 
 const verifyAuthToken = (req: Request, res: Response, next:NextFunction) => {
