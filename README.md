@@ -37,3 +37,18 @@ db-migrate up
 ```
 npm run start
 ```
+
+
+## enviromental variables
+```
+POSTGRES_HOST=127.0.0.1
+POSTGRES_DB=udacity-project
+POSTGRES_TEST_DB=udacity-project-test
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=dodomax12345
+PORT=3000
+BCRYPT_PASSWORD=secret-password123
+SALT_ROUNDS=10
+ENV=dev
+TOKEN_SECRET=secret-token
+```
